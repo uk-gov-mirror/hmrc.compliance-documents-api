@@ -23,13 +23,13 @@ import play.api.Configuration
 import play.api.http.HttpErrorHandler
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import uk.gov.hmrc.api.controllers.DocumentationController
+import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 
 class ApiDocumentationController @Inject()(
                                             cc: ControllerComponents,
                                             assets: Assets,
                                             errorHandler: HttpErrorHandler,
-                                            config: Configuration) extends DocumentationController(cc, assets, errorHandler){
+                                            config: Configuration) extends BackendController(cc) {
 
   lazy val whitelistedApplicationIds: Seq[String] = config.getOptional[Seq[String]]("apiDefinition.whitelistedApplicationIds").getOrElse(Seq.empty)
 
@@ -37,7 +37,14 @@ class ApiDocumentationController @Inject()(
 
   lazy val endpointsEnabled: Boolean = config.get[Boolean]("apiDefinition.endpointsEnabled")
 
-  override def definition(): Action[AnyContent] = cc.actionBuilder {
+  def definition(): Action[AnyContent] = cc.actionBuilder {
     Ok(Json.toJson(ApiDefinition(whitelistedApplicationIds, endpointsEnabled, status)))
   }
+
+  def conf(
+            version: String,
+            file: String
+          ): Action[AnyContent] =
+    assets.at(s"/public/api/conf/$version", file)
+
 }

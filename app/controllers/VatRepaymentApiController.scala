@@ -16,6 +16,7 @@
 
 package controllers
 
+import config.ErrorInternalServerError
 import connectors.ComplianceDocumentsConnector
 import controllers.actions.{AuthenticateApplicationAction, ValidateCorrelationIdHeaderAction}
 import javax.inject._
@@ -24,9 +25,8 @@ import play.api.http.ContentTypes
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, ControllerComponents, Result}
 import services.ValidationService
-import uk.gov.hmrc.api.controllers.ErrorInternalServerError
 import uk.gov.hmrc.http.HttpResponse
-import uk.gov.hmrc.play.bootstrap.controller.BackendController
+import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import utils.LoggerHelper
 import utils.LoggerHelper._
 
@@ -55,7 +55,7 @@ class VatRepaymentApiController @Inject()(
           s"Request received - passing on to IF", Some(request.correlationId), Some(input)))
         complianceDocumentsConnector.vatRepayment(input, request.correlationId, documentId.toLong).map {
           el =>
-            el.map(response => responseMapper(response)) getOrElse InternalServerError(Json.toJson(ErrorInternalServerError))
+            el.map(response => responseMapper(response)) getOrElse InternalServerError(Json.toJson(ErrorInternalServerError()))
         }
       case Some(errors) =>
         logger.warn(LoggerHelper.logProcess("VatRepaymentApiController", "postRepaymentData: Left",

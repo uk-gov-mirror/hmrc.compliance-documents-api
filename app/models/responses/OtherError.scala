@@ -52,7 +52,7 @@ case class MissingCorrelationId()
 
 object OtherError {
 
-  implicit def otherErrorWrites: Writes[OtherError] = {
+  implicit val otherErrorWrites: Writes[OtherError] = {
     case fieldError: FieldError =>
       Json.obj(
         "code" -> fieldError.code,

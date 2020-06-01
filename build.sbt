@@ -17,13 +17,12 @@ lazy val microservice = Project(appName, file("."))
 
 
 libraryDependencies ++= Seq(
-  "uk.gov.hmrc" %% "bootstrap-play-26" % "1.8.0",
+  "uk.gov.hmrc" %% "bootstrap-backend-play-27" % "2.14.0",
   "org.scalatest" %% "scalatest" % "3.0.8" % "test",
-  "uk.gov.hmrc" %% "play-hmrc-api" % "4.1.0-play-26",
   "com.typesafe.play" %% "play-test" % current % "test",
   "org.pegdown" % "pegdown" % "1.6.0" % "test, it",
   "com.github.java-json-tools"  % "json-schema-validator"     % "2.2.13",
-  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.3" % "test, it",
+  "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.3" % "test, it",
   "org.mockito" %% "mockito-scala" % "1.8.0" % "test",
   "com.github.tomakehurst" % "wiremock-standalone" % "2.26.3" % "test, it",
   compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
@@ -40,7 +39,10 @@ resolvers += Resolver.jcenterRepo
 integrationTestSettings
 coverageEnabled in(Test, compile) := true
 
+unmanagedResourceDirectories in IntegrationTest += baseDirectory ( _ /"target/web/public/test" ).value
+
 enablePlugins(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin, SbtArtifactory)
 scalacOptions ++= Seq(
   "-P:silencer:pathFilters=views;routes"
 )
+

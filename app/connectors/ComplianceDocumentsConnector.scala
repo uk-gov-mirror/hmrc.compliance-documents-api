@@ -25,7 +25,6 @@ import uk.gov.hmrc.http.logging.Authorization
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
 import utils.LoggerHelper
-
 import scala.concurrent.{ExecutionContext, Future}
 
 class ComplianceDocumentsConnector @Inject()(

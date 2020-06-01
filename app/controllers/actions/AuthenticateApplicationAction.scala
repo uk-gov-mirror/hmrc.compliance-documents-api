@@ -16,13 +16,13 @@
 
 package controllers.actions
 
+import config.{ErrorInternalServerError, ErrorUnauthorized}
 import javax.inject.Inject
 import org.slf4j.MDC
 import play.api.libs.json.Json
 import play.api.mvc.Results.{InternalServerError, Unauthorized}
 import play.api.mvc._
 import play.api.{Configuration, Logger}
-import uk.gov.hmrc.api.controllers.{ErrorInternalServerError, ErrorUnauthorized}
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.auth.core.{AuthProvider, AuthProviders, AuthorisationException, AuthorisedFunctions}
 import uk.gov.hmrc.http.{HeaderCarrier, HeaderNames}
@@ -64,18 +64,18 @@ class AuthenticateApplicationAction @Inject()(
         logger.warn(
           logProcess("AuthenticateApplicationAction", "invokeBlock", "no application id or application id not in request")
         )
-        Future.successful(Unauthorized(Json.toJson(ErrorUnauthorized)))
+        Future.successful(Unauthorized(Json.toJson(ErrorUnauthorized())))
     } recover {
       case _: AuthorisationException =>
         logger.warn(
           logProcess("AuthenticateApplicationAction", "invokeBlock", "no application id or application id not in request")
         )
-        Unauthorized(Json.toJson(ErrorUnauthorized))
+        Unauthorized(Json.toJson(ErrorUnauthorized()))
       case e: Throwable =>
         logger.warn(
           logProcess("AuthenticateApplicationAction", "invokeBlock", s"an unexpected exception occurred: $e")
         )
-        InternalServerError(Json.toJson(ErrorInternalServerError))
+        InternalServerError(Json.toJson(ErrorInternalServerError()))
     }
   }
 

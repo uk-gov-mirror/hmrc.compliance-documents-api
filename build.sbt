@@ -1,14 +1,16 @@
 import scoverage.ScoverageKeys
-import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 
 val appName = "compliance-documents-api"
 
 majorVersion := 0
 scalaVersion := "3.3.4"
 
-scalacOptions += "-Xlint:-missing-interpolator"
-scalacOptions += "-Wconf:src=routes/.*:s"
-scalacOptions +=  "-Wconf:cat=unused-imports&src=html/.*:s"
+scalacOptions ++= Seq(
+  "-Wconf:msg=unused import*:s",
+  "-Wconf:msg=routes/.*:s",
+  "-Wconf:msg=Flag.*repeatedly:s",
+  "-Wconf:msg=unused private member*:s"
+)
 
 libraryDependencies ++= AppDependencies.all
 
@@ -20,8 +22,6 @@ lazy val scoverageSettings = {
     ScoverageKeys.coverageHighlighting := true
   )
 }
-
-integrationTestSettings()
 
 javaOptions ++= Seq(
   "-Dpolyglot.js.nashorn-compat=true"

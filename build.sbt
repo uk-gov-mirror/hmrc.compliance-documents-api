@@ -1,4 +1,5 @@
 import scoverage.ScoverageKeys
+import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 
 val appName = "compliance-documents-api"
 
@@ -22,6 +23,8 @@ lazy val scoverageSettings = {
     ScoverageKeys.coverageHighlighting := true
   )
 }
+
+integrationTestSettings()
 
 javaOptions ++= Seq(
   "-Dpolyglot.js.nashorn-compat=true"

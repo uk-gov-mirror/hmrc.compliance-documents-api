@@ -21,7 +21,6 @@ lazy val scoverageSettings = {
   )
 }
 
-resolvers += Resolver.jcenterRepo
 integrationTestSettings()
 
 javaOptions ++= Seq(

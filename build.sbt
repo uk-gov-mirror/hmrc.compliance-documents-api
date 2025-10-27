@@ -44,5 +44,7 @@ lazy val it = (project in file("it"))
   .enablePlugins(PlayScala)
   .dependsOn(microservice % "compile->compile,test;test->compile,test")
   .settings(DefaultBuildSettings.itSettings())
-  .settings(libraryDependencies ++= AppDependencies.test)
+  .settings(libraryDependencies ++= AppDependencies.test,
+    Test    / scalacOptions --= Seq("-deprecation","-unchecked","-encoding","UTF-8")
+  )
   .settings( Test / scalaSource := baseDirectory.value / "test" / "scala")

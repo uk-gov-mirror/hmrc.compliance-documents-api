@@ -56,7 +56,7 @@ class ComplianceDocumentsConnector @Inject()(
 
     httpClient.post(url"$url")
       .withBody(request)
-      .setHeader(customHeaders: _*)
+      .setHeader(customHeaders*)
       .execute[HttpResponse]
       .map { response =>
         response.status match {

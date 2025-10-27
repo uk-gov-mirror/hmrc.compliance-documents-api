@@ -15,7 +15,7 @@ object AppDependencies {
     "uk.gov.hmrc"   %% s"bootstrap-test-$playVersion" % bootstrapVersion,
     "org.scalamock" %% "scalamock"                    % "7.5.0",
     "org.scalatestplus" %% "mockito-4-11"             % "3.2.18.0"
-  ).map(_ % "test, it")
+  ).map(_ % "test")
 
   val all: Seq[ModuleID] = compile ++ test
 

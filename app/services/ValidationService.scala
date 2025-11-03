@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory
 import com.google.inject.Inject
 import models.responses._
 import play.api.libs.json.{Json, _}
-
+import scala.annotation.nowarn
 import scala.jdk.CollectionConverters._
 
 class ValidationService @Inject()(resources: ResourceService) {
@@ -78,6 +78,7 @@ class ValidationService @Inject()(resources: ResourceService) {
       }
   }
 
+  @nowarn("msg=match may not be exhaustive")
   def validateDocType(docJson: JsValue): Either[BadRequestErrorResponse, Unit] = {
     def getResult(schema: String): Either[BadRequestErrorResponse, Unit] = {
       val result = validateInternallyAgainstSchema(schema, (docJson \ "documentMetadata" \ "classIndex").as[JsValue])

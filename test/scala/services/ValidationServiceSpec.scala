@@ -36,7 +36,7 @@ class ValidationServiceSpec extends AnyWordSpec with Matchers with MockFactory {
 
   "The validation service" should {
     "return errors when model does not map properly" in {
-      (mockResource.getFile _).expects("/schemas/addDocumentSchemaNoClassType.json").returns(
+      (mockResource.getFile).expects("/schemas/addDocumentSchemaNoClassType.json").returns(
         """{
           |  "$schema": "http://json-schema.org/draft-04/schema#",
           |  "title": "Mapping tester",
@@ -67,23 +67,23 @@ class ValidationServiceSpec extends AnyWordSpec with Matchers with MockFactory {
       )
     }
     "return nothing if given valid input - EF" in {
-      (mockResource.getFile _).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
-      (mockResource.getFile _).expects("/schemas/efSchema.json").returns(efSchema).once()
+      (mockResource.getFile).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
+      (mockResource.getFile).expects("/schemas/efSchema.json").returns(efSchema).once()
       assert(validationService.validate(Json.parse(getExample("ef")), "1234").isEmpty)
     }
     "return nothing if given valid input - nReg" in {
-      (mockResource.getFile _).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
-      (mockResource.getFile _).expects("/schemas/nRegSchema.json").returns(nRegSchema).once()
+      (mockResource.getFile).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
+      (mockResource.getFile).expects("/schemas/nRegSchema.json").returns(nRegSchema).once()
       assert(validationService.validate(Json.parse(getExample("nReg")), "1234").isEmpty)
     }
     "return nothing if given valid input - pReg" in {
-      (mockResource.getFile _).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
-      (mockResource.getFile _).expects("/schemas/pRegSchema.json").returns(pRegSchema).once()
+      (mockResource.getFile).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
+      (mockResource.getFile).expects("/schemas/pRegSchema.json").returns(pRegSchema).once()
       assert(validationService.validate(Json.parse(getExample("pReg")), "1234").isEmpty)
     }
     "return bad request if given invalid input for a valid classIndex" in {
-      (mockResource.getFile _).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
-      (mockResource.getFile _).expects("/schemas/efSchema.json").returns(efSchema).once()
+      (mockResource.getFile).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
+      (mockResource.getFile).expects("/schemas/efSchema.json").returns(efSchema).once()
       val resultOfBadOne = validationService.validate(Json.parse(getExample("efInvalid")), "1234")
       assert(resultOfBadOne.isDefined)
       resultOfBadOne.get shouldBe Json.parse(
@@ -102,7 +102,7 @@ class ValidationServiceSpec extends AnyWordSpec with Matchers with MockFactory {
       )
     }
     "return bad request if given invalid classIndex" in {
-      (mockResource.getFile _).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
+      (mockResource.getFile).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
       val resultOfBadOne = validationService.validate(Json.parse(minWithEmptySpace(badDocument)), "1234")
       assert(resultOfBadOne.isDefined)
       resultOfBadOne.get shouldBe Json.parse(
@@ -113,7 +113,7 @@ class ValidationServiceSpec extends AnyWordSpec with Matchers with MockFactory {
 
     }
     "return bad request if given invalid input with fields not matching Regex" in {
-      (mockResource.getFile _).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
+      (mockResource.getFile).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
       val resultOfBadOne = validationService.validate(Json.parse(getExample("invalidNoMissing")), "1234")
       assert(resultOfBadOne.isDefined)
       resultOfBadOne.get shouldBe Json.parse(
@@ -123,7 +123,7 @@ class ValidationServiceSpec extends AnyWordSpec with Matchers with MockFactory {
     }
 
     "return bad request if given invalid input with both missing & unexpected fields" in {
-      (mockResource.getFile _).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
+      (mockResource.getFile).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
       val resultOfBadOne = validationService.validate(Json.parse(getExample("unexpectedAndMissing")), "1234")
       resultOfBadOne.get shouldBe Json.parse(
         """
@@ -132,8 +132,8 @@ class ValidationServiceSpec extends AnyWordSpec with Matchers with MockFactory {
       )
     }
     "return a bad request if given a good document with invalid classdoc parameters" in {
-      (mockResource.getFile _).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
-      (mockResource.getFile _).expects("/schemas/efSchema.json").returns(efSchema).once()
+      (mockResource.getFile).expects("/schemas/addDocumentSchemaNoClassType.json").returns(schema).once()
+      (mockResource.getFile).expects("/schemas/efSchema.json").returns(efSchema).once()
       val resultOfBadOne = validationService.validate(Json.parse(minWithEmptySpace(efInvalid)), "1234")
       resultOfBadOne.get shouldBe Json.parse(
         """
